@@ -1,0 +1,650 @@
+
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Serif+Tamil:wght@300;400;500;600&family=Cinzel:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #fdf6ec;
+    --deep-maroon: #5c1a1a;
+    --maroon: #7d2828;
+    --gold: #c9923a;
+    --gold-light: #e8c27a;
+    --gold-pale: #f5e6c8;
+    --text-dark: #2e1a0e;
+    --text-mid: #5a3a22;
+    --text-soft: #9a7355;
+  }
+
+  html { background: var(--deep-maroon); }
+
+  body {
+    background: var(--cream);
+    font-family: 'Noto Serif Tamil', 'Cormorant Garamond', serif;
+    color: var(--text-dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Decorative background texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at 10% 10%, rgba(201,146,58,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 90%, rgba(92,26,26,0.06) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9923a' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 0 0 60px;
+  }
+
+  /* ── HEADER BAND ── */
+  .header-band {
+    background: var(--deep-maroon);
+    text-align: center;
+    padding: 36px 24px 30px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header-band::before, .header-band::after {
+    content: '';
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: rgba(201,146,58,0.07);
+  }
+  .header-band::before { width: 400px; height: 400px; }
+  .header-band::after { width: 250px; height: 250px; background: rgba(201,146,58,0.05); }
+
+  .ganesh-line {
+    font-family: 'Noto Serif Tamil', serif;
+    font-size: 13px;
+    color: var(--gold-light);
+    letter-spacing: 3px;
+    opacity: 0.9;
+    margin-bottom: 6px;
+    position: relative;
+    z-index: 1;
+  }
+  .gold-ornament {
+    color: var(--gold);
+    font-size: 18px;
+    letter-spacing: 10px;
+    display: block;
+    margin: 8px 0;
+    position: relative;
+    z-index: 1;
+  }
+  .save-date-en {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    margin-top: 10px;
+    position: relative;
+    z-index: 1;
+  }
+  .save-date-ta {
+    font-family: 'Noto Serif Tamil', serif;
+    font-size: 12px;
+    color: rgba(232,194,122,0.75);
+    margin-top: 4px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── KURAL SECTION ── */
+  .kural-section {
+    background: var(--gold-pale);
+    border-top: 3px solid var(--gold);
+    border-bottom: 3px solid var(--gold);
+    padding: 28px 32px;
+    text-align: center;
+    position: relative;
+  }
+  .kural-section::before {
+    content: '❝';
+    font-size: 60px;
+    color: var(--gold);
+    opacity: 0.15;
+    position: absolute;
+    top: 8px; left: 16px;
+    line-height: 1;
+    font-family: Georgia, serif;
+  }
+  .kural-ta {
+    font-family: 'Noto Serif Tamil', serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--deep-maroon);
+    line-height: 2.2;
+    position: relative;
+    z-index: 1;
+  }
+  .kural-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--text-mid);
+    line-height: 1.8;
+    margin-top: 10px;
+    position: relative;
+    z-index: 1;
+  }
+  .kural-attr {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-top: 10px;
+  }
+
+  /* ── BODY CARD ── */
+  .body-card {
+    background: #fff;
+    margin: 0;
+    padding: 36px 32px;
+    text-align: center;
+    border-bottom: 1px solid rgba(201,146,58,0.2);
+  }
+
+  .inviter-label {
+    font-family: 'Noto Serif Tamil', serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--text-soft);
+    margin-bottom: 6px;
+  }
+  .inviter-name {
+    font-family: 'Cinzel', serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--deep-maroon);
+    letter-spacing: 3px;
+  }
+  .inviter-role-ta {
+    font-family: 'Noto Serif Tamil', serif;
+    font-size: 12px;
+    color: var(--text-soft);
+    margin-top: 4px;
+  }
+  .inviter-role-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--text-soft);
+    margin-top: 2px;
+    margin-bottom: 20px;
+  }
+
+  .friend-msg-ta {
+    font-family: 'Noto Serif Tamil', serif;
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 2.1;
+    max-width: 420px;
+    margin: 0 auto 8px;
+  }
+  .friend-msg-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--text-soft);
+    line-height: 1.8;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  /* ── DIVIDER ── */
+  .silk-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 28px auto;
+    max-width: 300px;
+    justify-content: center;
+  }
+  .silk-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+  .silk-gem {
+    width: 7px; height: 7px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  /* ── PARENTS ── */
+  .parents-section {
+    background: #fff;
+    padding: 0 32px 28px;
+    text-align: center;
+  }
+  .parents-grid {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr;
+    gap: 0;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .parent-block { padding: 16px 8px; }
+  .parent-name-ta {
+    font-family: 'Noto Serif Tamil', serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--deep-maroon);
+    line-height: 1.9;
+  }
+  .parent-loc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    color: var(--text-soft);
+    margin-top: 3px;
+  }
+  .parents-and {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    color: var(--gold);
+    font-weight: 300;
+    font-style: italic;
+  }
+  .parents-announce-ta {
+    font-family: 'Noto Serif Tamil', serif;
+    font-size: 12px;
+    color: var(--text-soft);
+    letter-spacing: 0.5px;
+  }
+
+  /* ── COUPLE ── */
+  .couple-section {
+    background: var(--deep-maroon);
+    padding: 40px 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .couple-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(201,146,58,0.12) 0%, transparent 70%);
+  }
+  .groom-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--gold-light);
+    letter-spacing: 4px;
+    position: relative;
+  }
+  .bride-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--gold-light);
+    letter-spacing: 4px;
+    position: relative;
+  }
+  .name-sub-ta {
+    font-family: 'Noto Serif Tamil', serif;
+    font-size: 10px;
+    color: rgba(232,194,122,0.55);
+    margin-top: 4px;
+    line-height: 1.8;
+    position: relative;
+  }
+  .name-sub-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 11px;
+    color: rgba(232,194,122,0.45);
+    position: relative;
+  }
+  .heart-connector {
+    font-size: 42px;
+    color: var(--gold);
+    margin: 16px 0;
+    display: block;
+    position: relative;
+  }
+  .verse-ta {
+    font-family: 'Noto Serif Tamil', serif;
+    font-size: 12px;
+    color: rgba(232,194,122,0.65);
+    line-height: 2.3;
+    margin-top: 20px;
+    position: relative;
+  }
+  .verse-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: rgba(232,194,122,0.5);
+    line-height: 1.9;
+    margin-top: 8px;
+    position: relative;
+  }
+
+  /* ── EVENTS ── */
+  .events-section {
+    background: var(--cream);
+    padding: 36px 24px;
+  }
+  .events-header-ta {
+    font-family: 'Noto Serif Tamil', serif;
+    font-size: 12px;
+    color: var(--text-soft);
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  .events-header-en {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--text-soft);
+    text-align: center;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+
+  .event-card {
+    background: #fff;
+    border-left: 3px solid var(--gold);
+    border-radius: 2px;
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(92,26,26,0.07);
+  }
+  .event-left {
+    background: var(--deep-maroon);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 18px 10px;
+    gap: 4px;
+  }
+  .event-emoji-main { font-size: 22px; }
+  .event-date-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+  .event-month-short {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: rgba(232,194,122,0.6);
+    text-transform: uppercase;
+  }
+  .event-right {
+    padding: 16px 18px;
+  }
+  .event-title-ta {
+    font-family: 'Noto Serif Tamil', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--deep-maroon);
+    margin-bottom: 2px;
+  }
+  .event-title-en {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .event-time {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 3px;
+  }
+  .event-venue-ta {
+    font-family: 'Noto Serif Tamil', serif;
+    font-size: 11px;
+    color: var(--text-soft);
+    line-height: 1.7;
+  }
+  .event-venue-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    color: var(--text-soft);
+    font-style: italic;
+  }
+
+  /* ── LOCATION ── */
+  .location-section {
+    background: #fff;
+    padding: 24px 32px;
+    text-align: center;
+    border-top: 1px solid var(--gold-pale);
+    border-bottom: 1px solid var(--gold-pale);
+  }
+  .loc-label-ta {
+    font-family: 'Noto Serif Tamil', serif;
+    font-size: 12px;
+    color: var(--text-soft);
+    margin-bottom: 4px;
+  }
+  .loc-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 28px;
+    background: var(--deep-maroon);
+    color: var(--gold-light);
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    border-radius: 2px;
+    margin-top: 8px;
+    transition: background 0.2s;
+  }
+  .loc-btn:hover { background: var(--maroon); }
+
+  /* ── FOOTER ── */
+  .footer-band {
+    background: var(--deep-maroon);
+    padding: 32px 24px;
+    text-align: center;
+  }
+  .closing-ta {
+    font-family: 'Noto Serif Tamil', serif;
+    font-size: 14px;
+    color: var(--gold-light);
+    line-height: 2;
+    margin-bottom: 6px;
+  }
+  .closing-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: rgba(232,194,122,0.7);
+    line-height: 1.9;
+  }
+  .footer-ornament {
+    color: var(--gold);
+    font-size: 16px;
+    letter-spacing: 8px;
+    display: block;
+    margin-top: 16px;
+    opacity: 0.7;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .page > * {
+    animation: fadeUp 0.7s ease both;
+  }
+  .page > *:nth-child(1) { animation-delay: 0.05s; }
+  .page > *:nth-child(2) { animation-delay: 0.15s; }
+  .page > *:nth-child(3) { animation-delay: 0.25s; }
+  .page > *:nth-child(4) { animation-delay: 0.35s; }
+  .page > *:nth-child(5) { animation-delay: 0.45s; }
+  .page > *:nth-child(6) { animation-delay: 0.55s; }
+  .page > *:nth-child(7) { animation-delay: 0.65s; }
+  .page > *:nth-child(8) { animation-delay: 0.75s; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header-band">
+    <p class="ganesh-line">|| ஸ்ரீ கணேசாய நமஹ &nbsp;||&nbsp; Shri Ganeshay Namah ||</p>
+    <span class="gold-ornament">✦ ❧ ✦</span>
+    <p class="save-date-en">Save the Date</p>
+    <!-- <p class="save-date-ta">தேதியை நினைவில் வையுங்கள்</p> -->
+  </div>
+
+  <!-- KURAL -->
+  <div class="kural-section">
+    <p class="kural-ta">அன்பும் அறனும் உடைத்தாயின் இல்வாழ்க்கை<br>பண்பும் பயனும் அது.</p>
+    <p class="kural-en">"When love and virtue fill a home, that life will be rich in character and purpose."</p>
+    <p class="kural-attr">— திருக்குறள் —</p>
+  </div>
+
+  <!-- INVITER -->
+  <div class="body-card">
+    <p class="inviter-label">அன்புடன் அழைக்கிறேன்</p>
+    <p class="inviter-name">SIVANESH</p>
+    <p class="inviter-role-ta">மணமகளின் அன்பு சகோதரன்</p>
+    <p class="inviter-role-en">Loving brother of the bride</p>
+    <div class="silk-divider"><div class="silk-line"></div><div class="silk-gem"></div><div class="silk-line"></div></div>
+    <p class="friend-msg-ta">இந்த மகிழ்வான தருணத்தில், எங்கள் குடும்பத்தில் நடைபெறும் இந்த திருமண விழாவிற்கு உங்களை அன்புடன் அழைக்கிறோம் —<br>உங்கள் வருகையும் ஆசிர்வாதமும் எங்களுக்கு மிகவும் மகிழ்ச்சி அளிக்கும்.</p>
+    <p class="friend-msg-en">With love and warmth, we invite you to take part in this cherished moment with our family —<br>your presence and blessings would mean a great deal to us.</p>
+  </div>
+
+  <!-- PARENTS -->
+  <div class="parents-section">
+    <div class="silk-divider"><div class="silk-line"></div><div class="silk-gem"></div><div class="silk-line"></div></div>
+    <div class="parents-grid">
+      <div class="parent-block">
+        <p class="parent-name-ta">திரு. P. இளங்கோவன்<br>திருமதி. I. சாந்தி</p>
+        <p class="parent-loc">State Bank Colony, Salem</p>
+      </div>
+      <div class="parents-and">&</div>
+      <div class="parent-block">
+        <p class="parent-name-ta">திரு. K. மூர்த்தி<br>திருமதி. M. தமிழ்செல்வி</p>
+        <p class="parent-loc">Vaiyappamalai, Namakkal</p>
+      </div>
+    </div>
+    <p class="parents-announce-ta">இரு வம்சங்களும் கூடி இந்த திருமண மங்கலத்தை அறிவிப்பதில் பெருமகிழ்ச்சி அடைகிறோம்</p>
+    <p class="friend-msg-en">Both families together warmly welcome you!</p>
+  </div>
+
+  <!-- COUPLE -->
+  <div class="couple-section">
+    <p class="groom-name">Shiva</p>
+    <p class="name-sub-ta">திரு. பொன்னுசாமி கவுண்டர் & திரு. ரங்கநாதன் ஆகியோரின் பேரன்</p>
+    <p class="name-sub-en">Grandson of Mr. Ponnusamy Gounder & Mr. Ranganathan</p>
+    <span class="heart-connector">❤</span>
+    <p class="bride-name">Sabitha</p>
+    <p class="name-sub-ta">திரு. களியண்ண கவுண்டர் & திரு. மணிசெல்லப்பன் ஆகியோரின் பேத்தி</p>
+    <p class="name-sub-en">Granddaughter of Mr. Kaliyanna Gounder & Mr. Mani Sellappan</p>
+    <div class="silk-divider" style="margin:24px auto;"><div class="silk-line" style="background:linear-gradient(to right,transparent,rgba(201,146,58,0.4),transparent)"></div><div class="silk-gem" style="background:var(--gold)"></div><div class="silk-line" style="background:linear-gradient(to right,transparent,rgba(201,146,58,0.4),transparent)"></div></div>
+    <p class="verse-ta">இரு உள்ளங்கள், ஒரே வாக்குறுதி — இரு இதயங்கள், ஒரே இல்லம்.<br>அன்பால் பிணைந்து, அருளால் நிறைந்து, என்றென்றும் ஒன்றாய் வாழ்வோம்.</p>
+    <p class="verse-en">Two souls, one promise — two hearts, one home.<br>Bound by love, blessed by grace, together forever.</p>
+  </div>
+
+  <!-- EVENTS -->
+  <div class="events-section">
+    <p class="events-header-ta">கொண்டாட்டத்தில் கலந்துகொள்ளுங்கள்</p>
+    <p class="events-header-en">Join us to celebrate</p>
+
+    <div class="event-card">
+      <div class="event-left">
+        <span class="event-emoji-main">💍</span>
+        <p class="event-date-num">20</p>
+        <p class="event-month-short">May 2026</p>
+      </div>
+      <div class="event-right">
+        <p class="event-title-ta">நிச்சயதார்த்தம்</p>
+        <p class="event-title-en">Engagement</p>
+        <p class="event-time">9:00 am – 10:00 am</p>
+        <p class="event-venue-ta">மணமகள் இல்லம்</p>
+        <p class="event-venue-en">Bride's Home</p>
+      </div>
+    </div>
+
+    <div class="event-card" style="border-left-color: var(--maroon);">
+      <div class="event-left" style="background: var(--maroon);">
+        <span class="event-emoji-main">💞</span>
+        <p class="event-date-num">25</p>
+        <p class="event-month-short">May 2026</p>
+      </div>
+      <div class="event-right">
+        <p class="event-title-ta">திருமணம்</p>
+        <p class="event-title-en">Wedding</p>
+        <p class="event-time">5:30 am – 10:00 am</p>
+        <p class="event-venue-ta">மணமகள் இல்லம்</p>
+        <p class="event-venue-en">Bride's Home</p>
+      </div>
+    </div>
+
+    <div class="event-card">
+      <div class="event-left">
+        <span class="event-emoji-main">💒</span>
+        <p class="event-date-num">26</p>
+        <p class="event-month-short">May 2026</p>
+      </div>
+      <div class="event-right">
+        <p class="event-title-ta">வரவேற்பு விழா</p>
+        <p class="event-title-en">Reception</p>
+        <p class="event-time">11:00 pm – 3:00 am</p>
+        <p class="event-venue-ta">கொங்கு திருமண மாளிகை</p>
+        <p class="event-venue-en">Kongu Thirumana Maaligai</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOCATION -->
+  <div class="location-section">
+    <p class="loc-label-ta">அனைத்து இடங்களின் வழிகாட்டி</p>
+    <br>
+    <a class="loc-btn" href="https://shivasabitha.github.io/WeddingAndReceptionAddress/" target="_blank">
+      📍 &nbsp;View All Venue Locations
+    </a>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-band">
+    <span class="gold-ornament">✦ ❧ ✦</span>
+    <!-- <p class="closing-ta">நீங்கள் வருவது உங்கள் விருப்பம் — மகிழ்ச்சி எங்களுடையது.</p> -->
+    <p class="closing-en">Presence is yours, joy is ours.</p>
+    <p class="closing-en" style="margin-top:6px; font-size:12px;">உங்களுடன் கொண்டாட ஆவலுடன் காத்திருக்கிறோம் 🙏</p>
+    <span class="footer-ornament">✦ ❧ ✦</span>
+  </div>
+
+</div>
+</body>
+</html>
